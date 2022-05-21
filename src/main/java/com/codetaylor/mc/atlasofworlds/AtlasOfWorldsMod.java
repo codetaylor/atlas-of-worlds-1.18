@@ -1,16 +1,15 @@
 package com.codetaylor.mc.atlasofworlds;
 
 import com.codetaylor.mc.atlasofworlds.atlas.AtlasModule;
-import com.codetaylor.mc.atlasofworlds.lib.network.ClientSidedProxy;
-import com.codetaylor.mc.atlasofworlds.lib.network.CommonSidedProxy;
+import com.codetaylor.mc.atlasofworlds.lib.network.api.NetworkAPI;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -33,26 +32,22 @@ public class AtlasOfWorldsMod {
 
   public AtlasOfWorldsMod() {
 
-    {
-      CommonSidedProxy proxy = DistExecutor.unsafeRunForDist(() -> ClientSidedProxy::new, () -> CommonSidedProxy::new);
-      proxy.initialize();
-      proxy.registerModEventHandlers(FMLJavaModLoadingContext.get().getModEventBus());
-      proxy.registerForgeEventHandlers(MinecraftForge.EVENT_BUS);
-    }
+    IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
-    this.atlasModule = new AtlasModule(FMLJavaModLoadingContext.get().getModEventBus(), MinecraftForge.EVENT_BUS);
+    NetworkAPI.initialize(modEventBus, forgeEventBus);
 
-
+    this.atlasModule = new AtlasModule(modEventBus, forgeEventBus);
 
     // Register the setup method for modloading
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+    modEventBus.addListener(this::setup);
     // Register the enqueueIMC method for modloading
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+    modEventBus.addListener(this::enqueueIMC);
     // Register the processIMC method for modloading
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+    modEventBus.addListener(this::processIMC);
 
     // Register ourselves for server and other game events we are interested in
-    MinecraftForge.EVENT_BUS.register(this);
+    forgeEventBus.register(this);
   }
 
   private void setup(final FMLCommonSetupEvent event) {
