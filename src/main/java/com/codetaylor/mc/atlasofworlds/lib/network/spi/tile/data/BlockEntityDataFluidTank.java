@@ -1,7 +1,7 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.ITileDataFluidTank;
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.TileDataBase;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.IBlockEntityDataFluidTank;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.BlockEntityDataBase;
 import com.google.common.base.Preconditions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -9,17 +9,17 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 import java.io.IOException;
 
-public class TileDataFluidTank<T extends FluidTank & ITileDataFluidTank>
-    extends TileDataBase {
+public class BlockEntityDataFluidTank<T extends FluidTank & IBlockEntityDataFluidTank>
+    extends BlockEntityDataBase {
 
   private T fluidTank;
 
-  public TileDataFluidTank(T fluidTank) {
+  public BlockEntityDataFluidTank(T fluidTank) {
 
     this(fluidTank, 1);
   }
 
-  public TileDataFluidTank(T fluidTank, int updateInterval) {
+  public BlockEntityDataFluidTank(T fluidTank, int updateInterval) {
 
     super(updateInterval);
     this.fluidTank = fluidTank;

@@ -6,7 +6,7 @@ import com.codetaylor.mc.atlasofworlds.lib.inventory.spi.IObservableFluidTank;
  * Fluid tank data elements need to implement the
  * {@link IObservableFluidTank} interface.
  */
-public interface ITileDataFluidTank
+public interface IBlockEntityDataFluidTank
     extends IObservableFluidTank {
 
 }

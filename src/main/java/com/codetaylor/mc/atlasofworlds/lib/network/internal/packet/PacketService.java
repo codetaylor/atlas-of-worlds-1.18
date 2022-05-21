@@ -101,7 +101,7 @@ public class PacketService
   }
 
   /**
-   * Convenience method to send a packet to all entities tracking the chunk that contains the given tile entity.
+   * Convenience method to send a packet to all entities tracking the chunk that contains the given block entity.
    *
    * @param blockEntity
    * @param message

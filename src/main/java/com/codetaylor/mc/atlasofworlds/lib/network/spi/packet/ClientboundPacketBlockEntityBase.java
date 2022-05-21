@@ -31,8 +31,8 @@ public abstract class ClientboundPacketBlockEntityBase<Q extends ClientboundPack
     Level level = player.getLevel();
 
     if (level.isLoaded(message.blockPos)) {
-      BlockEntity tileEntity = level.getBlockEntity(message.blockPos);
-      return this.onMessage(message, contextSupplier, tileEntity);
+      BlockEntity blockEntity = level.getBlockEntity(message.blockPos);
+      return this.onMessage(message, contextSupplier, blockEntity);
     }
 
     return null;
@@ -41,6 +41,6 @@ public abstract class ClientboundPacketBlockEntityBase<Q extends ClientboundPack
   protected abstract IMessage onMessage(
       Q message,
       Supplier<NetworkEvent.Context> contextSupplier,
-      BlockEntity tileEntity
+      BlockEntity blockEntity
   );
 }

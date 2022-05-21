@@ -1,7 +1,7 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.ITileDataEnergyStorage;
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.TileDataBase;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.IBlockEntityDataEnergyStorage;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.BlockEntityDataBase;
 import com.google.common.base.Preconditions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -9,17 +9,17 @@ import net.minecraftforge.energy.IEnergyStorage;
 
 import java.io.IOException;
 
-public class TileDataEnergyStorage<T extends IEnergyStorage & ITileDataEnergyStorage>
-    extends TileDataBase {
+public class BlockEntityDataEnergyStorage<T extends IEnergyStorage & IBlockEntityDataEnergyStorage>
+    extends BlockEntityDataBase {
 
   private T energyStorage;
 
-  public TileDataEnergyStorage(T energyStorage) {
+  public BlockEntityDataEnergyStorage(T energyStorage) {
 
     this(energyStorage, 1);
   }
 
-  public TileDataEnergyStorage(T energyStorage, int updateInterval) {
+  public BlockEntityDataEnergyStorage(T energyStorage, int updateInterval) {
 
     super(updateInterval);
     this.energyStorage = energyStorage;

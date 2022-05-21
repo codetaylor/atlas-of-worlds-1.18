@@ -1,21 +1,21 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.TileDataBase;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.BlockEntityDataBase;
 import com.codetaylor.mc.atlasofworlds.lib.util.MathConstants;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;
 
-public class TileDataFloat
-    extends TileDataBase {
+public class BlockEntityDataFloat
+    extends BlockEntityDataBase {
 
   private float value;
 
-  public TileDataFloat(float initialValue) {
+  public BlockEntityDataFloat(float initialValue) {
 
     this(initialValue, 1);
   }
 
-  public TileDataFloat(float initialValue, int updateInterval) {
+  public BlockEntityDataFloat(float initialValue, int updateInterval) {
 
     super(updateInterval);
     this.set(initialValue);

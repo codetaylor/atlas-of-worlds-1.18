@@ -25,13 +25,13 @@ public abstract class ServerboundPacketBlockEntityBase<Q extends ServerboundPack
     NetworkEvent.Context context = contextSupplier.get();
     ServerPlayer player = context.getSender();
 
-    BlockEntity tileEntity = player.getLevel().getBlockEntity(message.blockPos);
-    return this.onMessage(message, contextSupplier, tileEntity);
+    BlockEntity blockEntity = player.getLevel().getBlockEntity(message.blockPos);
+    return this.onMessage(message, contextSupplier, blockEntity);
   }
 
   protected abstract IMessage onMessage(
       Q message,
       Supplier<NetworkEvent.Context> contextSupplier,
-      BlockEntity tileEntity
+      BlockEntity blockEntity
   );
 }

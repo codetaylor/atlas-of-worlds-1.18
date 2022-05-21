@@ -1,8 +1,8 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.internal.tile;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client.TileDataServiceClientMonitors;
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.ITileData;
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.TileDataContainerBase;
+import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client.BlockEntityDataServiceClientMonitors;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.IBlockEntityData;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.BlockEntityDataContainerBase;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,17 +15,17 @@ import java.util.List;
 
 public class BlockEntityDataTracker {
 
-  private final TileDataContainerBase tile;
+  private final BlockEntityDataContainerBase tile;
   private final FriendlyByteBuf packetBuffer;
 
-  private ArrayList<ITileData> data;
+  private ArrayList<IBlockEntityData> data;
 
   /**
-   * Temporarily stores data entries to pass to the tile's update method.
+   * Temporarily stores data entries to pass to the blockEntity's update method.
    */
-  private List<ITileData> toUpdate;
+  private List<IBlockEntityData> toUpdate;
 
-  /* package */ BlockEntityDataTracker(TileDataContainerBase tile) {
+  /* package */ BlockEntityDataTracker(BlockEntityDataContainerBase tile) {
 
     this.tile = tile;
     this.packetBuffer = new FriendlyByteBuf(Unpooled.buffer());
@@ -33,7 +33,7 @@ public class BlockEntityDataTracker {
     this.toUpdate = new ArrayList<>(1);
   }
 
-  /* package */ void addTileData(ITileData[] toAdd) {
+  /* package */ void addTileData(IBlockEntityData[] toAdd) {
 
     //noinspection unchecked
     this.data.addAll(Arrays.asList(toAdd));
@@ -41,7 +41,7 @@ public class BlockEntityDataTracker {
     this.toUpdate = new ArrayList<>(this.data.size());
   }
 
-  public TileDataContainerBase getBlockEntity() {
+  public BlockEntityDataContainerBase getBlockEntity() {
 
     return this.tile;
   }
@@ -98,11 +98,11 @@ public class BlockEntityDataTracker {
 
       // Deserialize buffer and stash updated entries.
       for (int i = 0; i < dirtyCount; i++) {
-        ITileData data = this.data.get(buffer.readInt());
+        IBlockEntityData data = this.data.get(buffer.readInt());
         data.read(buffer);
         data.setDirty(true);
         this.toUpdate.add(data);
-        TileDataServiceClientMonitors.getInstance().onClientTrackerUpdateReceived(this.tile.getBlockPos(), data.getClass());
+        BlockEntityDataServiceClientMonitors.getInstance().onClientTrackerUpdateReceived(this.tile.getBlockPos(), data.getClass());
       }
 
       // Notify the tile that data was updated.

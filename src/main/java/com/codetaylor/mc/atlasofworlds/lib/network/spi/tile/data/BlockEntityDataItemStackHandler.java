@@ -1,7 +1,7 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.ITileDataItemStackHandler;
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.TileDataBase;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.IBlockEntityDataItemStackHandler;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.BlockEntityDataBase;
 import com.google.common.base.Preconditions;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
@@ -10,19 +10,19 @@ import net.minecraftforge.items.ItemStackHandler;
 import java.io.IOException;
 import java.util.BitSet;
 
-public class TileDataItemStackHandler<H extends ItemStackHandler & ITileDataItemStackHandler>
-    extends TileDataBase {
+public class BlockEntityDataItemStackHandler<H extends ItemStackHandler & IBlockEntityDataItemStackHandler>
+    extends BlockEntityDataBase {
 
   private H stackHandler;
   private BitSet dirtySlots;
 
-  public TileDataItemStackHandler(H stackHandler) {
+  public BlockEntityDataItemStackHandler(H stackHandler) {
 
     this(stackHandler, 1);
     this.dirtySlots = new BitSet(stackHandler.getSlots());
   }
 
-  public TileDataItemStackHandler(H stackHandler, int updateInterval) {
+  public BlockEntityDataItemStackHandler(H stackHandler, int updateInterval) {
 
     super(updateInterval);
     this.stackHandler = stackHandler;

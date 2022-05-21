@@ -3,7 +3,7 @@ package com.codetaylor.mc.atlasofworlds.lib.network.spi.tile;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public interface ITileDataContainer {
+public interface IBlockEntityDataContainer {
 
   /**
    * Called on the client when a TE receives a data update packet.

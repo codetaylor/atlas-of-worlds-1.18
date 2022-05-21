@@ -1,6 +1,6 @@
 package com.codetaylor.mc.atlasofworlds.lib.inventory.spi;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.ITileDataItemStackHandler;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.IBlockEntityDataItemStackHandler;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class DynamicStackHandler
     extends ObservableStackHandler
-    implements ITileDataItemStackHandler {
+    implements IBlockEntityDataItemStackHandler {
 
   public DynamicStackHandler(int initialSize) {
 

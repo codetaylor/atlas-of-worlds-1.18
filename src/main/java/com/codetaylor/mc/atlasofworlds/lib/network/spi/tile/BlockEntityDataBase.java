@@ -6,33 +6,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is the base tile data element.
+ * This is the base blockEntity data element.
  * <p>
- * It implements the default, expected behavior of tile data elements and all
- * tile data elements should extend it.
+ * It implements the default, expected behavior of blockEntity data elements and all
+ * blockEntity data elements should extend it.
  */
-public abstract class TileDataBase
-    implements ITileData {
+public abstract class BlockEntityDataBase
+    implements IBlockEntityData {
 
-  public interface IChangeObserver<D extends TileDataBase> {
+  public interface IChangeObserver<D extends BlockEntityDataBase> {
 
     void onDirtyStateChanged(D data);
 
-    class OnDirtyMarkTileDirty<D extends TileDataBase>
+    class OnDirtyMarkTileDirty<D extends BlockEntityDataBase>
         implements IChangeObserver<D> {
 
-      private final BlockEntity tile;
+      private final BlockEntity blockEntity;
 
-      public OnDirtyMarkTileDirty(BlockEntity tile) {
+      public OnDirtyMarkTileDirty(BlockEntity blockEntity) {
 
-        this.tile = tile;
+        this.blockEntity = blockEntity;
       }
 
       @Override
       public void onDirtyStateChanged(D data) {
 
         if (data.isDirty()) {
-          this.tile.setChanged();
+          this.blockEntity.setChanged();
         }
       }
     }
@@ -44,7 +44,7 @@ public abstract class TileDataBase
   private boolean forceUpdate;
   private List<IChangeObserver> changeObservers;
 
-  protected TileDataBase(int updateInterval) {
+  protected BlockEntityDataBase(int updateInterval) {
 
     this.updateInterval = updateInterval;
   }

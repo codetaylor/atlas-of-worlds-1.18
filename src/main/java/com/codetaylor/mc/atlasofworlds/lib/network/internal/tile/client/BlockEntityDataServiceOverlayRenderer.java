@@ -19,11 +19,11 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
-public class TileDataServiceOverlayRenderer {
+public class BlockEntityDataServiceOverlayRenderer {
 
   private final IClientConfig clientConfig;
 
-  public TileDataServiceOverlayRenderer(IClientConfig clientConfig) {
+  public BlockEntityDataServiceOverlayRenderer(IClientConfig clientConfig) {
 
     this.clientConfig = clientConfig;
   }
@@ -44,7 +44,7 @@ public class TileDataServiceOverlayRenderer {
 
       // --- Total ---
 
-      this.renderMonitor(matrixStack, TileDataServiceClientMonitors.getInstance().totalServiceClientMonitor, scaledWidth / 2 - 32 - 128, 100, "Total Rx");
+      this.renderMonitor(matrixStack, BlockEntityDataServiceClientMonitors.getInstance().totalServiceClientMonitor, scaledWidth / 2 - 32 - 128, 100, "Total Rx");
 
       // --- Position ---
 
@@ -54,7 +54,7 @@ public class TileDataServiceOverlayRenderer {
           && traceResult.getType() == HitResult.Type.BLOCK) {
 
         BlockPos blockPos = ((BlockHitResult) traceResult).getBlockPos();
-        TileDataServiceClientMonitor monitor = TileDataServiceClientMonitors.getInstance().findMonitorForPosition(blockPos);
+        BlockEntityDataServiceClientMonitor monitor = BlockEntityDataServiceClientMonitors.getInstance().findMonitorForPosition(blockPos);
 
         int x = scaledWidth / 2 - 32 + 128;
         int y = 100;
@@ -64,7 +64,7 @@ public class TileDataServiceOverlayRenderer {
           this.renderMonitor(matrixStack, monitor, x, y, title);
         }
 
-        TileDataTrackerUpdateMonitor trackerUpdateMonitor = TileDataServiceClientMonitors.getInstance().getTrackerUpdateMonitor();
+        BlockEntityDataTrackerUpdateMonitor trackerUpdateMonitor = BlockEntityDataServiceClientMonitors.getInstance().getTrackerUpdateMonitor();
         Object2ObjectArrayMap<BlockPos, Object2IntArrayMap<Class<?>>> updateMap = trackerUpdateMonitor.getPublicTrackerUpdateMap();
         Object2IntArrayMap<Class<?>> map = updateMap.get(blockPos);
 
@@ -89,7 +89,7 @@ public class TileDataServiceOverlayRenderer {
     }
   }
 
-  public void renderMonitor(PoseStack matrixStack, TileDataServiceClientMonitor monitor, int x, int y, String title) {
+  public void renderMonitor(PoseStack matrixStack, BlockEntityDataServiceClientMonitor monitor, int x, int y, String title) {
 
     int trackedIndex = this.clientConfig.getServiceMonitorTrackedIndex();
     int totalWidth = 64; // TODO: const

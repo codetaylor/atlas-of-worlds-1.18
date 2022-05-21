@@ -1,6 +1,6 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.ITileDataItemStackHandler;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.IBlockEntityDataItemStackHandler;
 import com.codetaylor.mc.atlasofworlds.lib.util.StackHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
@@ -17,15 +17,15 @@ import java.io.IOException;
  *
  * @param <H>
  */
-public class TileDataLargeItemStackHandler<H extends ItemStackHandler & ITileDataItemStackHandler>
-    extends TileDataItemStackHandler<H> {
+public class BlockEntityDataLargeItemStackHandler<H extends ItemStackHandler & IBlockEntityDataItemStackHandler>
+    extends BlockEntityDataItemStackHandler<H> {
 
-  public TileDataLargeItemStackHandler(H stackHandler) {
+  public BlockEntityDataLargeItemStackHandler(H stackHandler) {
 
     super(stackHandler);
   }
 
-  public TileDataLargeItemStackHandler(H stackHandler, int updateInterval) {
+  public BlockEntityDataLargeItemStackHandler(H stackHandler, int updateInterval) {
 
     super(stackHandler, updateInterval);
   }

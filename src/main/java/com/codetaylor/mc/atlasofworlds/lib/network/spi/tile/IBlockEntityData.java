@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 
 import java.io.IOException;
 
-public interface ITileData {
+public interface IBlockEntityData {
 
   /**
    * @return true if this data needs to be serialized

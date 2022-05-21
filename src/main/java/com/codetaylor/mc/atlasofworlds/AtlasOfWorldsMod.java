@@ -3,7 +3,6 @@ package com.codetaylor.mc.atlasofworlds;
 import com.codetaylor.mc.atlasofworlds.atlas.AtlasModule;
 import com.codetaylor.mc.atlasofworlds.lib.network.ClientSidedProxy;
 import com.codetaylor.mc.atlasofworlds.lib.network.CommonSidedProxy;
-import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.TileDataServiceContainer;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;

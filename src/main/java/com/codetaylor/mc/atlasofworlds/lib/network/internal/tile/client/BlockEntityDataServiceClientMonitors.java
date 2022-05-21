@@ -2,8 +2,8 @@ package com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client;
 
 import com.codetaylor.mc.atlasofworlds.lib.network.IClientConfig;
 import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.BlockEntityDataTracker;
-import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.TileDataServiceLogger;
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.ITileData;
+import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.BlockEntityDataServiceLogger;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.IBlockEntityData;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -21,24 +21,24 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 @OnlyIn(Dist.CLIENT)
-public class TileDataServiceClientMonitors {
+public class BlockEntityDataServiceClientMonitors {
 
-  private static TileDataServiceClientMonitors instance;
+  private static BlockEntityDataServiceClientMonitors instance;
 
   private static final short TOTAL_INTERVAL_COUNT = 2 * 60;
   private static final int CACHE_CLEANUP_INTERVAL_TICKS = 10 * 20;
 
-  private final TileDataTrackerUpdateMonitor trackerUpdateMonitor;
+  private final BlockEntityDataTrackerUpdateMonitor trackerUpdateMonitor;
 
   /**
-   * Monitors all network traffic for all tile data services.
+   * Monitors all network traffic for all blockEntity data services.
    */
-  public final TileDataServiceClientMonitor totalServiceClientMonitor;
+  public final BlockEntityDataServiceClientMonitor totalServiceClientMonitor;
 
   /**
    * Monitors network traffic, indexed by world position.
    */
-  private final LoadingCache<BlockPos, TileDataServiceClientMonitor> loadingCacheBlockPosTotal;
+  private final LoadingCache<BlockPos, BlockEntityDataServiceClientMonitor> loadingCacheBlockPosTotal;
 
   private final IClientConfig clientConfig;
 
@@ -46,10 +46,10 @@ public class TileDataServiceClientMonitors {
 
   public static void initialize(IClientConfig clientConfig) {
 
-    TileDataServiceClientMonitors.instance = new TileDataServiceClientMonitors(
+    BlockEntityDataServiceClientMonitors.instance = new BlockEntityDataServiceClientMonitors(
         clientConfig,
-        new TileDataTrackerUpdateMonitor(),
-        new TileDataServiceClientMonitor(
+        new BlockEntityDataTrackerUpdateMonitor(),
+        new BlockEntityDataServiceClientMonitor(
             clientConfig::getServiceMonitorUpdateIntervalTicks,
             TOTAL_INTERVAL_COUNT
         ),
@@ -58,24 +58,24 @@ public class TileDataServiceClientMonitors {
             .expireAfterAccess(10, TimeUnit.MINUTES)
             .build(new CacheLoader<>() {
 
-              public @NotNull TileDataServiceClientMonitor load(@Nonnull BlockPos pos) {
+              public @NotNull BlockEntityDataServiceClientMonitor load(@Nonnull BlockPos pos) {
 
-                return new TileDataServiceClientMonitor(clientConfig::getServiceMonitorUpdateIntervalTicks, TOTAL_INTERVAL_COUNT);
+                return new BlockEntityDataServiceClientMonitor(clientConfig::getServiceMonitorUpdateIntervalTicks, TOTAL_INTERVAL_COUNT);
               }
             })
     );
   }
 
-  public static TileDataServiceClientMonitors getInstance() {
+  public static BlockEntityDataServiceClientMonitors getInstance() {
 
-    return TileDataServiceClientMonitors.instance;
+    return BlockEntityDataServiceClientMonitors.instance;
   }
 
-  private TileDataServiceClientMonitors(
+  private BlockEntityDataServiceClientMonitors(
       IClientConfig clientConfig,
-      TileDataTrackerUpdateMonitor trackerUpdateMonitor,
-      TileDataServiceClientMonitor totalServiceClientMonitor,
-      LoadingCache<BlockPos, TileDataServiceClientMonitor> loadingCacheBlockPosTotal
+      BlockEntityDataTrackerUpdateMonitor trackerUpdateMonitor,
+      BlockEntityDataServiceClientMonitor totalServiceClientMonitor,
+      LoadingCache<BlockPos, BlockEntityDataServiceClientMonitor> loadingCacheBlockPosTotal
   ) {
 
     this.clientConfig = clientConfig;
@@ -103,7 +103,7 @@ public class TileDataServiceClientMonitors {
 
         this.totalServiceClientMonitor.update();
 
-        for (TileDataServiceClientMonitor value : this.loadingCacheBlockPosTotal.asMap().values()) {
+        for (BlockEntityDataServiceClientMonitor value : this.loadingCacheBlockPosTotal.asMap().values()) {
           value.update();
         }
 
@@ -120,7 +120,7 @@ public class TileDataServiceClientMonitors {
   }
 
   /**
-   * Called when a packet from the tile entity data service is received on
+   * Called when a packet from the block entity data service is received on
    * the client.
    *
    * @param tracker the tracker that received the packet
@@ -137,13 +137,13 @@ public class TileDataServiceClientMonitors {
 
       // --- Per Position ---
 
-      TileDataServiceClientMonitor monitor = null;
+      BlockEntityDataServiceClientMonitor monitor = null;
 
       try {
         monitor = this.loadingCacheBlockPosTotal.get(pos);
 
       } catch (ExecutionException e) {
-        TileDataServiceLogger.LOGGER.error("", e);
+        BlockEntityDataServiceLogger.LOGGER.error("", e);
       }
 
       if (monitor != null) {
@@ -152,7 +152,7 @@ public class TileDataServiceClientMonitors {
     }
   }
 
-  public void onClientTrackerUpdateReceived(BlockPos pos, Class<? extends ITileData> tileDataClass) {
+  public void onClientTrackerUpdateReceived(BlockPos pos, Class<? extends IBlockEntityData> tileDataClass) {
 
     if (this.clientConfig.isServiceMonitorEnabled()) {
       this.trackerUpdateMonitor.onClientTrackerUpdateReceived(pos, tileDataClass);
@@ -164,7 +164,7 @@ public class TileDataServiceClientMonitors {
   // ---------------------------------------------------------------------------
 
   @Nullable
-  public TileDataServiceClientMonitor findMonitorForPosition(BlockPos pos) {
+  public BlockEntityDataServiceClientMonitor findMonitorForPosition(BlockPos pos) {
 
     if (this.loadingCacheBlockPosTotal.asMap().containsKey(pos)) {
 
@@ -172,14 +172,14 @@ public class TileDataServiceClientMonitors {
         return this.loadingCacheBlockPosTotal.get(pos);
 
       } catch (ExecutionException e) {
-        TileDataServiceLogger.LOGGER.error("", e);
+        BlockEntityDataServiceLogger.LOGGER.error("", e);
       }
     }
 
     return null;
   }
 
-  public TileDataTrackerUpdateMonitor getTrackerUpdateMonitor() {
+  public BlockEntityDataTrackerUpdateMonitor getTrackerUpdateMonitor() {
 
     return this.trackerUpdateMonitor;
   }

@@ -2,9 +2,9 @@ package com.codetaylor.mc.atlasofworlds.lib.network.internal.tile;
 
 
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.packet.IPacketService;
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.ITileData;
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.TileDataContainerBase;
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.ITileDataService;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.IBlockEntityData;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.BlockEntityDataContainerBase;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.IBlockEntityDataService;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.ClientboundPacketBlockEntityData;
 import net.minecraft.network.FriendlyByteBuf;
 
@@ -14,16 +14,16 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TileDataService
-    implements ITileDataService {
+public class BlockEntityDataService
+    implements IBlockEntityDataService {
 
   private final int serviceId;
   private final IPacketService packetService;
 
   private final ThreadLocal<List<BlockEntityDataTracker>> dataTrackerList;
-  private final ThreadLocal<Map<TileDataContainerBase, BlockEntityDataTracker>> dataTrackerMap;
+  private final ThreadLocal<Map<BlockEntityDataContainerBase, BlockEntityDataTracker>> dataTrackerMap;
 
-  public TileDataService(int serviceId, IPacketService packetService) {
+  public BlockEntityDataService(int serviceId, IPacketService packetService) {
 
     this.serviceId = serviceId;
     this.packetService = packetService;
@@ -40,16 +40,16 @@ public class TileDataService
 
   @Override
   @Nullable
-  public BlockEntityDataTracker getTracker(TileDataContainerBase tile) {
+  public BlockEntityDataTracker getTracker(BlockEntityDataContainerBase blockEntity) {
 
-    return this.dataTrackerMap.get().get(tile);
+    return this.dataTrackerMap.get().get(blockEntity);
   }
 
   @Override
-  public void register(TileDataContainerBase tile, ITileData[] data) {
+  public void register(BlockEntityDataContainerBase tile, IBlockEntityData[] data) {
 
     if (data.length > 0) {
-      Map<TileDataContainerBase, BlockEntityDataTracker> map = this.dataTrackerMap.get();
+      Map<BlockEntityDataContainerBase, BlockEntityDataTracker> map = this.dataTrackerMap.get();
       BlockEntityDataTracker tracker = map.get(tile);
 
       if (tracker == null) {
@@ -87,7 +87,7 @@ public class TileDataService
       }
       */
 
-      TileDataContainerBase blockEntity = tracker.getBlockEntity();
+      BlockEntityDataContainerBase blockEntity = tracker.getBlockEntity();
 
       // --- Bookkeeping ---
 

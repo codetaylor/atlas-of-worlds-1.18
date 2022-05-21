@@ -1,12 +1,12 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service;
 
+import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.BlockEntityDataServiceContainer;
+import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.BlockEntityDataServiceLogger;
 import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.BlockEntityDataTracker;
-import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.TileDataServiceContainer;
-import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.TileDataServiceLogger;
-import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client.TileDataServiceClientMonitors;
+import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client.BlockEntityDataServiceClientMonitors;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.packet.ClientboundPacketBlockEntityBase;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.packet.IMessage;
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.TileDataContainerBase;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.BlockEntityDataContainerBase;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -56,23 +56,23 @@ public class ClientboundPacketBlockEntityData
   @Override
   protected IMessage onMessage(ClientboundPacketBlockEntityData message, Supplier<NetworkEvent.Context> contextSupplier, BlockEntity blockEntity) {
 
-    if (blockEntity instanceof TileDataContainerBase) {
+    if (blockEntity instanceof BlockEntityDataContainerBase) {
 
-      ITileDataService dataService = TileDataServiceContainer.INSTANCE.get().find(message.serviceId);
+      IBlockEntityDataService dataService = BlockEntityDataServiceContainer.INSTANCE.get().find(message.serviceId);
 
       if (dataService != null) {
-        TileDataContainerBase tile = (TileDataContainerBase) blockEntity;
-        BlockEntityDataTracker tracker = dataService.getTracker(tile);
+        BlockEntityDataContainerBase containerBase = (BlockEntityDataContainerBase) blockEntity;
+        BlockEntityDataTracker tracker = dataService.getTracker(containerBase);
 
         if (tracker != null) {
 
           try {
             tracker.updateClient(message.buffer);
-            TileDataServiceClientMonitors.getInstance().onClientPacketReceived(tracker, message.blockPos, message.buffer.writerIndex());
+            BlockEntityDataServiceClientMonitors.getInstance().onClientPacketReceived(tracker, message.blockPos, message.buffer.writerIndex());
             contextSupplier.get().setPacketHandled(true);
 
           } catch (Exception e) {
-            TileDataServiceLogger.LOGGER.error("", e);
+            BlockEntityDataServiceLogger.LOGGER.error("", e);
           }
         }
       }

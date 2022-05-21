@@ -1,13 +1,13 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.ITileData;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.IBlockEntityData;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import net.minecraft.core.BlockPos;
 
-/* package */ class TileDataTrackerUpdateMonitor {
+/* package */ class BlockEntityDataTrackerUpdateMonitor {
 
   private static final int TRACKER_UPDATE_INTERVAL_TICKS = 20;
 
@@ -44,14 +44,14 @@ import net.minecraft.core.BlockPos;
     }
   }
 
-  /* package */ void onClientTrackerUpdateReceived(BlockPos pos, Class<? extends ITileData> tileDataClass) {
+  /* package */ void onClientTrackerUpdateReceived(BlockPos pos, Class<? extends IBlockEntityData> blockEntityDataClass) {
 
     Object2IntArrayMap<Class<?>> map = this.privateTrackerUpdateMap.computeIfAbsent(pos, blockPos -> {
       Object2IntArrayMap<Class<?>> newMap = new Object2IntArrayMap<>();
       newMap.defaultReturnValue(0);
       return newMap;
     });
-    map.put(tileDataClass, map.getInt(tileDataClass) + 1);
+    map.put(blockEntityDataClass, map.getInt(blockEntityDataClass) + 1);
   }
 
   Object2ObjectArrayMap<BlockPos, Object2IntArrayMap<Class<?>>> getPublicTrackerUpdateMap() {

@@ -1,19 +1,19 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.TileDataBase;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.BlockEntityDataBase;
 import net.minecraft.network.FriendlyByteBuf;
 
-public class TileDataBoolean
-    extends TileDataBase {
+public class BlockEntityDataBoolean
+    extends BlockEntityDataBase {
 
   private boolean value;
 
-  public TileDataBoolean(boolean initialValue) {
+  public BlockEntityDataBoolean(boolean initialValue) {
 
     this(initialValue, 1);
   }
 
-  public TileDataBoolean(boolean initialValue, int updateInterval) {
+  public BlockEntityDataBoolean(boolean initialValue, int updateInterval) {
 
     super(updateInterval);
     this.set(initialValue);

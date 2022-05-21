@@ -3,10 +3,9 @@ package com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.Mod;
 
 @OnlyIn(Dist.CLIENT)
-public class TileDataServiceClientMonitor {
+public class BlockEntityDataServiceClientMonitor {
 
   // ---------------------------------------------------------------------------
   // - Monitor Instance
@@ -19,7 +18,7 @@ public class TileDataServiceClientMonitor {
   private int totalBytesReceived;
   private short tickCounter;
 
-  public TileDataServiceClientMonitor(UpdateIntervalProvider updateIntervalTicks, int totalIntervalCount) {
+  public BlockEntityDataServiceClientMonitor(UpdateIntervalProvider updateIntervalTicks, int totalIntervalCount) {
 
     totalBytesReceivedPerSecond = new IntArrayList(totalIntervalCount);
     this.updateIntervalTicks = updateIntervalTicks;

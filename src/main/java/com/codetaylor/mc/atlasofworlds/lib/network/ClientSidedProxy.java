@@ -1,13 +1,13 @@
 package com.codetaylor.mc.atlasofworlds.lib.network;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client.TileDataServiceClientMonitors;
-import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client.TileDataServiceOverlayRenderer;
+import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client.BlockEntityDataServiceClientMonitors;
+import com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client.BlockEntityDataServiceOverlayRenderer;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 public class ClientSidedProxy
     extends CommonSidedProxy {
 
-  private TileDataServiceOverlayRenderer tileDataServiceOverlayRenderer;
+  private BlockEntityDataServiceOverlayRenderer blockEntityDataServiceOverlayRenderer;
 
   @Override
   public void initialize() {
@@ -35,15 +35,15 @@ public class ClientSidedProxy
       }
     };
 
-    TileDataServiceClientMonitors.initialize(clientConfig);
+    BlockEntityDataServiceClientMonitors.initialize(clientConfig);
 
-    this.tileDataServiceOverlayRenderer = new TileDataServiceOverlayRenderer(clientConfig);
+    this.blockEntityDataServiceOverlayRenderer = new BlockEntityDataServiceOverlayRenderer(clientConfig);
   }
 
   @Override
   public void registerForgeEventHandlers(IEventBus forgeEventBus) {
 
     super.registerForgeEventHandlers(forgeEventBus);
-    forgeEventBus.addListener(this.tileDataServiceOverlayRenderer::onRenderGameOverlayPostEvent);
+    forgeEventBus.addListener(this.blockEntityDataServiceOverlayRenderer::onRenderGameOverlayPostEvent);
   }
 }

@@ -1,10 +1,10 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.TileDataBase;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.BlockEntityDataBase;
 import net.minecraft.network.FriendlyByteBuf;
 
-public class TileDataEnum<E extends Enum>
-    extends TileDataBase {
+public class BlockEntityDataEnum<E extends Enum>
+    extends BlockEntityDataBase {
 
   public interface EnumReader<E extends Enum> {
 
@@ -22,12 +22,12 @@ public class TileDataEnum<E extends Enum>
   private final EnumWriter<E> writer;
   private E value;
 
-  public TileDataEnum(EnumReader<E> reader, EnumWriter<E> writer, E initialValue) {
+  public BlockEntityDataEnum(EnumReader<E> reader, EnumWriter<E> writer, E initialValue) {
 
     this(reader, writer, initialValue, 1);
   }
 
-  public TileDataEnum(EnumReader<E> reader, EnumWriter<E> writer, E initialValue, int updateInterval) {
+  public BlockEntityDataEnum(EnumReader<E> reader, EnumWriter<E> writer, E initialValue, int updateInterval) {
 
     super(updateInterval);
     this.reader = reader;

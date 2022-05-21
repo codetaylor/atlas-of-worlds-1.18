@@ -1,6 +1,6 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.spi.tile;
 
-import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.ITileDataService;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.IBlockEntityDataService;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -16,27 +16,27 @@ import javax.annotation.Nullable;
  * This provides a default implementation of the packet update methods.
  * <p>
  * <p>
- * Call {@link TileEntityDataBase#registerTileDataForNetwork(ITileData[])}
- * in the subclass' constructor to register tile data.
+ * Call {@link BlockEntityEntityDataBase#registerTileDataForNetwork(IBlockEntityData[])}
+ * in the subclass' constructor to register blockEntity data.
  */
-public abstract class TileEntityDataBase
-    extends TileDataContainerBase {
+public abstract class BlockEntityEntityDataBase
+    extends BlockEntityDataContainerBase {
 
-  protected final ITileDataService tileDataService;
+  protected final IBlockEntityDataService blockEntityDataService;
 
-  protected TileEntityDataBase(BlockEntityType<?> tileEntityType, BlockPos blockPos, BlockState blockState, ITileDataService tileDataService) {
+  protected BlockEntityEntityDataBase(BlockEntityType<?> blockEntityEntityType, BlockPos blockPos, BlockState blockState, IBlockEntityDataService blockEntityDataService) {
 
-    super(tileEntityType, blockPos, blockState);
-    this.tileDataService = tileDataService;
+    super(blockEntityEntityType, blockPos, blockState);
+    this.blockEntityDataService = blockEntityDataService;
   }
 
   // ---------------------------------------------------------------------------
   // - Network
   // ---------------------------------------------------------------------------
 
-  protected void registerTileDataForNetwork(ITileData[] data) {
+  protected void registerTileDataForNetwork(IBlockEntityData[] data) {
 
-    this.tileDataService.register(this, data);
+    this.blockEntityDataService.register(this, data);
   }
 
   @OnlyIn(Dist.CLIENT)
