@@ -1,0 +1,54 @@
+ext {
+
+    modid = 'atlasofworlds'
+
+    forge = [
+            version: '1.18.2-40.1.19',
+            version_range: '[40,)'
+    ]
+
+    minecraft = [
+            version_range: '[1.18.2,1.19)'
+    ]
+
+    mappings = [
+            channel: 'official',
+            version: '1.18.2'
+    ]
+
+    infiniverse = [
+            branch: 'infiniverse-1.18.2',
+            version: '1.0.0.2'
+    ]
+
+    // Example replacements:
+    // 'required-after:dropt;': 'required-after:dropt@[1.12.2-1.12.0,);',
+    // 'required-after:athenaeum;': 'required-after:athenaeum@[1.12.2-1.19.0-RC.1,);'
+    replace = []
+}
+
+sourceSets {
+    main
+    test
+}
+
+repositories {
+    mavenCentral()
+
+//    maven {
+//        url 'http://dvs1.progwml6.com/files/maven' // JEI
+//    }
+
+    // Infiniverse
+    maven { url "https://cubicinterpolation.net/maven/" }
+
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${project.ext.forge.version}"
+    implementation fg.deobf("commoble.infiniverse:${project.ext.infiniverse.branch}:${project.ext.infiniverse.version}")
+    // runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.0.58")
+}

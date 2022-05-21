@@ -1,0 +1,173 @@
+buildscript {
+    repositories {
+        // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+    }
+}
+// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+apply plugin: 'net.minecraftforge.gradle'
+
+apply from: 'project.gradle'
+
+def getVersionName = { String workTree ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', "--git-dir=\"${workTree}/.git\"", "--work-tree=\"${workTree}\"", 'describe', '--tags'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+version = getVersionName("${project.projectDir}")
+group = 'com.codetaylor.mc.' + project.ext.modid
+archivesBaseName = project.ext.modid
+
+println()
+println("-------------------------------------------------------------")
+println(" Mod Id: " + project.ext.modid)
+println(" Version: " + version)
+println(" Forge Version: " + project.ext.forge.version)
+println(" Mappings: " + project.ext.mappings.channel + " " + project.ext.mappings.version)
+println("-------------------------------------------------------------")
+println(" Java: ${System.getProperty 'java.version'}")
+println(" JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'})")
+println(" Arch: ${System.getProperty 'os.arch'}")
+println("-------------------------------------------------------------")
+println()
+
+// Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+task replaceResources(type: Copy) {
+    outputs.upToDateWhen { false }
+    from(sourceSets.main.resources.srcDirs) {
+        include "META-INF/mods.toml", "src/main/java/com/codetaylor/mc/atlasofworlds/AtlasOfWorldsMod.java"
+        expand 'modid': project.ext.modid, 'version': version, 'minecraft_version': project.ext.minecraft.version_range, 'forge_version': project.ext.forge.version_range
+    }
+    into "$buildDir/resources/main/"
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        duplicatesStrategy(DuplicatesStrategy.WARN)
+        exclude 'META-INF/mods.toml'
+    }
+    finalizedBy replaceResources
+}
+
+minecraft {
+    mappings channel: 'official', version: '1.18.2'
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
+
+    // Default run configurations.
+    // These can be tweaked, removed, or duplicated as needed.
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', project.ext.modid
+
+            mods.configure {
+                new net.minecraftforge.gradle.common.util.ModConfig(project as Project, project.ext.modid as String) {
+                    {
+                        source sourceSets.main
+                    }
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', project.ext.modid
+
+            mods.configure {
+                new net.minecraftforge.gradle.common.util.ModConfig(project as Project, project.ext.modid as String) {
+                    {
+                        source sourceSets.main
+                    }
+                }
+            }
+        }
+
+        gameTestServer {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', project.ext.modid
+
+            mods.configure {
+                new net.minecraftforge.gradle.common.util.ModConfig(project as Project, project.ext.modid as String) {
+                    {
+                        source sourceSets.main
+                    }
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            args '--mod', project.ext.modid, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
+            mods.configure {
+                new net.minecraftforge.gradle.common.util.ModConfig(project as Project, project.ext.modid as String) {
+                    {
+                        source sourceSets.main
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Include resources generated by data generators.
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+jar {
+    from sourceSets.main.output.classesDirs
+    from sourceSets.main.output.resourcesDir
+}
+
+// Example configuration to allow publishing using the maven-publish plugin
+// This is the preferred method to reobfuscate your jar file
+jar.finalizedBy('reobfJar')
+// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
+// publish.dependsOn('reobfJar')
+
+
+task sourcesJar(type: Jar) {
+    classifier = "sources"
+    from sourceSets.main.allJava
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+            artifact sourcesJar
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/maven"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
