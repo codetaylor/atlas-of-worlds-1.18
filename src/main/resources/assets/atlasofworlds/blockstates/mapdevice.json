@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "atlasofworlds:block/mapdevice"
+    },
+    "active=true": {
+      "model": "atlasofworlds:block/mapdevice_active"
+    }
+  }
+}

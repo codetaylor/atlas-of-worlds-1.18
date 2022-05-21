@@ -2,6 +2,8 @@ package com.codetaylor.mc.atlasofworlds;
 
 import com.codetaylor.mc.atlasofworlds.atlas.AtlasModule;
 import com.codetaylor.mc.atlasofworlds.lib.network.api.NetworkAPI;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.packet.IPacketService;
+import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.IBlockEntityDataService;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -25,6 +27,8 @@ import java.util.stream.Collectors;
 public class AtlasOfWorldsMod {
 
   public static final String MOD_ID = "atlasofworlds";
+  public static final String PACKET_SERVICE_PROTOCOL_VERSION = "1";
+
   // Directly reference a slf4j logger
   private static final Logger LOGGER = LogUtils.getLogger();
 
@@ -36,8 +40,10 @@ public class AtlasOfWorldsMod {
     IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
     NetworkAPI.initialize(modEventBus, forgeEventBus);
+    IPacketService packetService = NetworkAPI.createPacketService(MOD_ID, MOD_ID, PACKET_SERVICE_PROTOCOL_VERSION);
+    IBlockEntityDataService tileDataService = NetworkAPI.createTileDataService(MOD_ID, MOD_ID, packetService);
 
-    this.atlasModule = new AtlasModule(modEventBus, forgeEventBus);
+    this.atlasModule = new AtlasModule(modEventBus, forgeEventBus, packetService, tileDataService);
 
     // Register the setup method for modloading
     modEventBus.addListener(this::setup);
