@@ -26,36 +26,28 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public class MapDeviceBlock
+public class MapDevicePortalBlock
     extends Block
     implements EntityBlock {
 
-  public static final String NAME = "mapdevice";
+  public static final String NAME = "mapdevice_portal";
 
   public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
   private static final VoxelShape SHAPE = Shapes.or(
-      Block.box(2, 0, 2, 14, 2, 14),    // base 1
-      Block.box(4, 2, 4, 12, 4, 12),    // base 2
-      Block.box(6, 4, 6, 10, 7, 10),    // stem
-      Block.box(4, 7, 4, 12, 9, 12),    // base 3
-      Block.box(2, 9, 2, 14, 15, 14),   // main
-      Block.box(0, 8, 4, 3, 16, 12),    // west
-      Block.box(13, 8, 4, 16, 16, 12),  // east
-      Block.box(4, 8, 0, 12, 16, 3),    // south
-      Block.box(4, 8, 13, 12, 16, 16)   // north
+      Block.box(0, 0, 0, 16, 8, 16)
   );
 
   private final IBlockEntityDataService blockEntityDataService;
 
-  public MapDeviceBlock(IBlockEntityDataService blockEntityDataService) {
+  public MapDevicePortalBlock(IBlockEntityDataService blockEntityDataService) {
 
     super(Properties.of(Material.STONE, MaterialColor.DEEPSLATE)
         .sound(SoundType.DEEPSLATE_BRICKS)
         .destroyTime(1)
         .explosionResistance(10)
         .noOcclusion()
-        .lightLevel(blockState -> blockState.getValue(ACTIVE) ? 10 : 0));
+        .lightLevel(blockState -> blockState.getValue(ACTIVE) ? 6 : 0));
 
     this.blockEntityDataService = blockEntityDataService;
     this.registerDefaultState(this.getStateDefinition().any().setValue(ACTIVE, false));
@@ -72,7 +64,7 @@ public class MapDeviceBlock
   @Override
   public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
 
-    return new MapDeviceBlockEntity(blockPos, blockState, this.blockEntityDataService);
+    return new MapDevicePortalBlockEntity(blockPos, blockState, this.blockEntityDataService);
   }
 
   @Nonnull
@@ -99,9 +91,8 @@ public class MapDeviceBlock
 
       BlockEntity blockEntity = level.getBlockEntity(blockPos);
 
-      if (blockEntity instanceof MapDeviceBlockEntity) {
-
-        level.setBlock(blockPos, blockState.setValue(MapDeviceBlock.ACTIVE, !blockState.getValue(MapDeviceBlock.ACTIVE)), Block.UPDATE_ALL);
+      if (blockEntity instanceof MapDevicePortalBlockEntity) {
+        level.setBlock(blockPos, blockState.setValue(MapDevicePortalBlock.ACTIVE, !blockState.getValue(MapDevicePortalBlock.ACTIVE)), Block.UPDATE_ALL);
       }
     }
 

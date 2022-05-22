@@ -1,0 +1,17 @@
+{
+  "slices": [
+    {
+      "//": "Map Device Portal",
+      "sourceImage": "map_device_portal.png",
+      "targetPath": "../src/main/resources/assets/atlasofworlds/textures/block",
+      "sliceWidth": 16,
+      "sliceHeight": 16,
+      "targetSlices": [
+        {"target": "map_device_portal_side.png", "position": [0, 0]},
+        {"target": "map_device_portal_top.png", "position": [1, 0]},
+        {"target": "map_device_portal_bottom.png", "position": [0, 1]},
+        {"target": "map_device_portal_top_active.png", "position": [1, 1]}
+      ]
+    }
+  ]
+}

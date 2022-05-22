@@ -5,6 +5,8 @@ import com.codetaylor.mc.atlasofworlds.atlas.client.ClientSidedProxy;
 import com.codetaylor.mc.atlasofworlds.atlas.common.CommonSidedProxy;
 import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDeviceBlock;
 import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDeviceBlockEntity;
+import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDevicePortalBlock;
+import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDevicePortalBlockEntity;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.packet.IPacketService;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.IBlockEntityDataService;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -31,8 +33,12 @@ public class AtlasModule {
     @ObjectHolder(MapDeviceBlock.NAME)
     public static final MapDeviceBlock MAP_DEVICE;
 
+    @ObjectHolder(MapDevicePortalBlock.NAME)
+    public static final MapDevicePortalBlock MAP_DEVICE_PORTAL;
+
     static {
       MAP_DEVICE = null;
+      MAP_DEVICE_PORTAL = null;
     }
   }
 
@@ -42,8 +48,12 @@ public class AtlasModule {
     @ObjectHolder(MapDeviceBlockEntity.NAME)
     public static final BlockEntityType<MapDeviceBlockEntity> MAP_DEVICE;
 
+    @ObjectHolder(MapDevicePortalBlockEntity.NAME)
+    public static final BlockEntityType<MapDevicePortalBlockEntity> MAP_DEVICE_PORTAL;
+
     static {
       MAP_DEVICE = null;
+      MAP_DEVICE_PORTAL = null;
     }
   }
 }
