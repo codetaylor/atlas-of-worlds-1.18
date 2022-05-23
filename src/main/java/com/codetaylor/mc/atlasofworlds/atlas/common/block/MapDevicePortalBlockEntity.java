@@ -9,8 +9,6 @@ import net.minecraft.world.level.block.state.BlockState;
 public class MapDevicePortalBlockEntity
     extends BlockEntityEntityDataBase {
 
-  public static final String NAME = "mapdevice_portal";
-
   public MapDevicePortalBlockEntity(
       BlockPos blockPos,
       BlockState blockState,

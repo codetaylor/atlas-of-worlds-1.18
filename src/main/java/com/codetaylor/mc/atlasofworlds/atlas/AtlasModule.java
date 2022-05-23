@@ -47,10 +47,10 @@ public class AtlasModule {
   @ObjectHolder(AtlasOfWorldsMod.MOD_ID)
   public static class BlockEntityTypes {
 
-    @ObjectHolder(MapDeviceBlockEntity.NAME)
+    @ObjectHolder(MapDeviceBlock.NAME)
     public static final BlockEntityType<MapDeviceBlockEntity> MAP_DEVICE;
 
-    @ObjectHolder(MapDevicePortalBlockEntity.NAME)
+    @ObjectHolder(MapDevicePortalBlock.NAME)
     public static final BlockEntityType<MapDevicePortalBlockEntity> MAP_DEVICE_PORTAL;
 
     static {

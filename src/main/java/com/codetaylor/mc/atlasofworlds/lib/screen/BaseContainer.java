@@ -129,13 +129,13 @@ public abstract class BaseContainer
   /**
    * This is called when the player is shift-clicking an ItemStack from
    * their inventory or hotbar and returns a slot index capable of
-   * accepting the item. Returns a -1 if no slot can accept the item.
+   * accepting the item. Returns a null if no slot can accept the item.
    * <p>
    * Use this if the container contains slots for things like machine
    * inputs.
    *
    * @param itemStack the item stack
-   * @return a valid slot index or -1
+   * @return a valid slot index or null
    */
   @Nullable
   protected Slot containerItemStackSlotTargetGet(ItemStack itemStack) {

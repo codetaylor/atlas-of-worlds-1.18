@@ -10,11 +10,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 
+import javax.annotation.Nullable;
+
 public final class NetworkAPI {
 
-  public static void initialize(IEventBus modEventBus, IEventBus forgeEventBus) {
+  public static void initialize(IEventBus modEventBus, IEventBus forgeEventBus, IPacketService packetService, @Nullable IBlockEntityDataService blockEntityDataService) {
 
-    CommonSidedProxy proxy = DistExecutor.unsafeRunForDist(() -> ClientSidedProxy::new, () -> CommonSidedProxy::new);
+    CommonSidedProxy proxy = DistExecutor.unsafeRunForDist(
+        () -> () -> new ClientSidedProxy(packetService, blockEntityDataService),
+        () -> () -> new CommonSidedProxy(packetService, blockEntityDataService)
+    );
     proxy.initialize();
     proxy.registerModEventHandlers(modEventBus);
     proxy.registerForgeEventHandlers(forgeEventBus);

@@ -39,9 +39,9 @@ public class AtlasOfWorldsMod {
     IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
     IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
-    NetworkAPI.initialize(modEventBus, forgeEventBus);
     IPacketService packetService = NetworkAPI.createPacketService(MOD_ID, MOD_ID, PACKET_SERVICE_PROTOCOL_VERSION);
     IBlockEntityDataService tileDataService = NetworkAPI.createTileDataService(MOD_ID, MOD_ID, packetService);
+    NetworkAPI.initialize(modEventBus, forgeEventBus, packetService, tileDataService);
 
     this.atlasModule = new AtlasModule(modEventBus, forgeEventBus, packetService, tileDataService);
 

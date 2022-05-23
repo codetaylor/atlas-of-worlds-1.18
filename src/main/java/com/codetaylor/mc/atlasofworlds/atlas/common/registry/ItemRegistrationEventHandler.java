@@ -4,6 +4,7 @@ import com.codetaylor.mc.atlasofworlds.AtlasOfWorldsMod;
 import com.codetaylor.mc.atlasofworlds.atlas.AtlasModule;
 import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDeviceBlock;
 import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDevicePortalBlock;
+import com.codetaylor.mc.atlasofworlds.atlas.common.item.AtlasMapItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -32,7 +33,17 @@ public record ItemRegistrationEventHandler() {
 
     IForgeRegistry<Item> registry = event.getRegistry();
 
+    // ---------------------------------------------------------------------------
+    // Block Items
+    // ---------------------------------------------------------------------------
+
     registry.register(new BlockItem(AtlasModule.Blocks.MAP_DEVICE, new Item.Properties().tab(tab)).setRegistryName(MapDeviceBlock.NAME));
     registry.register(new BlockItem(AtlasModule.Blocks.MAP_DEVICE_PORTAL, new Item.Properties().tab(tab)).setRegistryName(MapDevicePortalBlock.NAME));
+
+    // ---------------------------------------------------------------------------
+    // Maps
+    // ---------------------------------------------------------------------------
+
+    registry.register(new AtlasMapItem(tab).setRegistryName(AtlasMapItem.NAME_COMMON_0));
   }
 }

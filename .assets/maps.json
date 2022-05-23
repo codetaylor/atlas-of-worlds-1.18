@@ -1,0 +1,21 @@
+{
+  "slices": [
+    {
+      "//": "Maps - Common",
+      "sourceImage": "maps.png",
+      "targetPath": "../src/main/resources/assets/atlasofworlds/textures/item",
+      "sliceWidth": 16,
+      "sliceHeight": 16,
+      "targetSlices": [
+        {"target": "map_common_0.png", "position": [0, 7]},
+        {"target": "map_common_1.png", "position": [1, 7]},
+        {"target": "map_common_2.png", "position": [2, 7]},
+        {"target": "map_common_3.png", "position": [3, 7]},
+        {"target": "map_common_4.png", "position": [4, 7]},
+        {"target": "map_common_5.png", "position": [5, 7]},
+        {"target": "map_common_6.png", "position": [6, 7]},
+        {"target": "map_common_7.png", "position": [7, 7]}
+      ]
+    }
+  ]
+}

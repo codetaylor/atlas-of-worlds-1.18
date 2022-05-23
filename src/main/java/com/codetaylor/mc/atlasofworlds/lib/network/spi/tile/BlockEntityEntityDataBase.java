@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
  * This provides a default implementation of the packet update methods.
  * <p>
  * <p>
- * Call {@link BlockEntityEntityDataBase#registerTileDataForNetwork(IBlockEntityData[])}
+ * Call {@link BlockEntityEntityDataBase#registerBlockEntityDataForNetwork(IBlockEntityData[])}
  * in the subclass' constructor to register blockEntity data.
  */
 public abstract class BlockEntityEntityDataBase
@@ -34,7 +34,7 @@ public abstract class BlockEntityEntityDataBase
   // - Network
   // ---------------------------------------------------------------------------
 
-  protected void registerTileDataForNetwork(IBlockEntityData[] data) {
+  protected void registerBlockEntityDataForNetwork(IBlockEntityData[] data) {
 
     this.blockEntityDataService.register(this, data);
   }
