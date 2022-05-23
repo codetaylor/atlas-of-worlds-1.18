@@ -1,6 +1,7 @@
 package com.codetaylor.mc.atlasofworlds.lib.network.internal.tile.client;
 
 import com.codetaylor.mc.atlasofworlds.lib.network.IClientConfig;
+import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
@@ -9,6 +10,8 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -154,8 +157,13 @@ public class BlockEntityDataServiceOverlayRenderer {
       Tesselator tesselator = Tesselator.getInstance();
       BufferBuilder renderer = tesselator.getBuilder();
 
-      RenderSystem.disableTexture();
+
+      RenderSystem.setShader(GameRenderer::getPositionColorShader);
+      RenderSystem.setShaderColor(1, 1, 1, 1);
+      RenderSystem.disableDepthTest();
       RenderSystem.enableBlend();
+      RenderSystem.disableTexture();
+      RenderSystem.defaultBlendFunc();
 
       renderer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 
@@ -200,6 +208,8 @@ public class BlockEntityDataServiceOverlayRenderer {
       tesselator.end();
 
       RenderSystem.enableTexture();
+      RenderSystem.disableBlend();
+      RenderSystem.enableDepthTest();
     }
   }
 
