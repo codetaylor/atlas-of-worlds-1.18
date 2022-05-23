@@ -40,7 +40,6 @@ public class ScreenElementTextureRectangle
 
     this.textureBind(texture);
     this.elementDraw(poseStack, texture);
-
   }
 
   protected void elementDraw(PoseStack poseStack, Texture texture) {

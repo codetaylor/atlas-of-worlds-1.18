@@ -1,8 +1,10 @@
 package com.codetaylor.mc.atlasofworlds.atlas.client;
 
+import com.codetaylor.mc.atlasofworlds.atlas.client.registry.ClientSetupEventHandler;
 import com.codetaylor.mc.atlasofworlds.atlas.common.CommonSidedProxy;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.packet.IPacketService;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.IBlockEntityDataService;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 public class ClientSidedProxy
     extends CommonSidedProxy {
@@ -10,5 +12,12 @@ public class ClientSidedProxy
   public ClientSidedProxy(IPacketService packetService, IBlockEntityDataService blockEntityDataService) {
 
     super(packetService, blockEntityDataService);
+  }
+
+  @Override
+  public void registerModEventHandlers(IEventBus eventBus) {
+
+    super.registerModEventHandlers(eventBus);
+    eventBus.register(new ClientSetupEventHandler());
   }
 }

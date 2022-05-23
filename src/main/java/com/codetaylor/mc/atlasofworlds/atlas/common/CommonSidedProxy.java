@@ -3,6 +3,7 @@ package com.codetaylor.mc.atlasofworlds.atlas.common;
 import com.codetaylor.mc.atlasofworlds.atlas.IAtlasModuleSidedProxy;
 import com.codetaylor.mc.atlasofworlds.atlas.common.registry.BlockEntityRegistrationHandler;
 import com.codetaylor.mc.atlasofworlds.atlas.common.registry.BlockRegistrationEventHandler;
+import com.codetaylor.mc.atlasofworlds.atlas.common.registry.MenuTypeRegistrationEventHandler;
 import com.codetaylor.mc.atlasofworlds.atlas.common.registry.ItemRegistrationEventHandler;
 import com.codetaylor.mc.atlasofworlds.atlas.datagen.GatherDataEventHandler;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.packet.IPacketService;
@@ -35,6 +36,7 @@ public class CommonSidedProxy
     eventBus.register(new BlockRegistrationEventHandler(this.blockEntityDataService));
     eventBus.register(new ItemRegistrationEventHandler());
     eventBus.register(new BlockEntityRegistrationHandler(this.blockEntityDataService));
+    eventBus.register(new MenuTypeRegistrationEventHandler());
   }
 
   @Override

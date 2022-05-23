@@ -2,8 +2,8 @@ package com.codetaylor.mc.atlasofworlds.lib.screen.element;
 
 import com.codetaylor.mc.atlasofworlds.lib.screen.BaseContainerScreen;
 import com.codetaylor.mc.atlasofworlds.lib.screen.Texture;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
@@ -68,7 +68,7 @@ public abstract class BaseScreenElement
 
   protected void textureBind(ResourceLocation resourceLocation) {
 
-    Minecraft.getInstance().getTextureManager().bindForSetup(resourceLocation);
+    RenderSystem.setShaderTexture(0, resourceLocation);
   }
 
   protected void textureBind(Texture texture) {

@@ -1,10 +1,17 @@
 package com.codetaylor.mc.atlasofworlds.atlas.common.block;
 
+import com.codetaylor.mc.atlasofworlds.atlas.client.screen.MapDeviceScreen;
+import com.codetaylor.mc.atlasofworlds.atlas.common.container.MapDeviceContainer;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.IBlockEntityDataService;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -21,6 +28,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -101,7 +109,25 @@ public class MapDeviceBlock
 
       if (blockEntity instanceof MapDeviceBlockEntity) {
 
-        level.setBlock(blockPos, blockState.setValue(MapDeviceBlock.ACTIVE, !blockState.getValue(MapDeviceBlock.ACTIVE)), Block.UPDATE_ALL);
+//        level.setBlock(blockPos, blockState.setValue(MapDeviceBlock.ACTIVE, !blockState.getValue(MapDeviceBlock.ACTIVE)), Block.UPDATE_ALL);
+
+        MenuProvider menuProvider = new MenuProvider() {
+
+          @Nonnull
+          @Override
+          public Component getDisplayName() {
+
+            return MapDeviceScreen.TITLE_COMPONENT;
+          }
+
+          @Override
+          public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player) {
+
+            return new MapDeviceContainer(windowId, blockPos, playerInventory, player);
+          }
+        };
+
+        NetworkHooks.openGui((ServerPlayer) player, menuProvider, blockPos);
       }
     }
 

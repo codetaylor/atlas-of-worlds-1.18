@@ -36,9 +36,6 @@ public abstract class BaseContainerScreen<T extends AbstractContainerMenu>
   protected final List<IScreenElementTooltipProvider> tooltipProviderList;
   protected final List<Component> tooltipTextList;
 
-  protected int scaledWidth;
-  protected int scaledHeight;
-
   public BaseContainerScreen(T container, Inventory playerInventory, MutableComponent title, int width, int height) {
 
     super(container, playerInventory, title);
@@ -54,8 +51,8 @@ public abstract class BaseContainerScreen<T extends AbstractContainerMenu>
   private void updateScaledResolution() {
 
     Window window = Minecraft.getInstance().getWindow();
-    this.scaledWidth = window.getGuiScaledWidth();
-    this.scaledHeight = window.getGuiScaledHeight();
+    this.width = window.getGuiScaledWidth();
+    this.height = window.getGuiScaledHeight();
   }
 
   public Font getFontRenderer() {
@@ -90,16 +87,16 @@ public abstract class BaseContainerScreen<T extends AbstractContainerMenu>
 
   public int guiContainerOffsetXGet() {
 
-    return (this.scaledWidth - this.width) / 2;
+    return (this.width - this.imageWidth) / 2;
   }
 
   public int guiContainerOffsetYGet() {
 
-    return (this.scaledHeight - this.height) / 2;
+    return (this.height - this.imageWidth) / 2;
   }
 
   @Override
-  public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+  public void render(@Nonnull PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
 
     this.renderBackground(poseStack);
     super.render(poseStack, mouseX, mouseY, partialTicks);
@@ -111,6 +108,7 @@ public abstract class BaseContainerScreen<T extends AbstractContainerMenu>
 
     this.updateScaledResolution();
 
+    RenderSystem.setShader(GameRenderer::getPositionTexShader);
     RenderSystem.setShaderColor(1, 1, 1, 1);
 
     for (BaseScreenElement element : this.guiElementList) {

@@ -1,5 +1,6 @@
 {
   "itemGroup.atlasofworlds": "Atlas of Worlds",
   "block.atlasofworlds.mapdevice": "Map Device",
-  "block.atlasofworlds.mapdevice_portal": "Map Device Portal"
+  "block.atlasofworlds.mapdevice_portal": "Map Device Portal",
+  "gui.atlasofworlds.mapdevice.title": "Map Device"
 }

@@ -7,8 +7,10 @@ import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDeviceBlock;
 import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDeviceBlockEntity;
 import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDevicePortalBlock;
 import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDevicePortalBlockEntity;
+import com.codetaylor.mc.atlasofworlds.atlas.common.container.MapDeviceContainer;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.packet.IPacketService;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.IBlockEntityDataService;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -54,6 +56,17 @@ public class AtlasModule {
     static {
       MAP_DEVICE = null;
       MAP_DEVICE_PORTAL = null;
+    }
+  }
+
+  @ObjectHolder(AtlasOfWorldsMod.MOD_ID)
+  public static class MenuTypes {
+
+    @ObjectHolder(MapDeviceContainer.NAME)
+    public static final MenuType<MapDeviceContainer> MAP_DEVICE;
+
+    static {
+      MAP_DEVICE = null;
     }
   }
 }
