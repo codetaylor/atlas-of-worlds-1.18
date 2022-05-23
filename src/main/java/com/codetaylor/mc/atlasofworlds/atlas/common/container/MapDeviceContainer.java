@@ -3,12 +3,14 @@ package com.codetaylor.mc.atlasofworlds.atlas.common.container;
 import com.codetaylor.mc.atlasofworlds.atlas.AtlasModule;
 import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDeviceBlockEntity;
 import com.codetaylor.mc.atlasofworlds.atlas.common.item.AtlasMapItem;
+import com.codetaylor.mc.atlasofworlds.atlas.common.item.AtlasMapStone;
 import com.codetaylor.mc.atlasofworlds.lib.screen.BaseContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -25,7 +27,8 @@ public class MapDeviceContainer
   private final Player player;
   private final InvWrapper playerInventory;
 
-  private int slotIndexMapMatrixStart, slotIndexMapMatrixEnd;
+  private final int slotIndexMapMatrixStart, slotIndexMapMatrixEnd;
+  private final int slotIndexStoneStart, slotIndexStoneEnd;
 
   public MapDeviceContainer(int containerId, BlockPos blockPos, Inventory playerInventory, Player player) {
 
@@ -40,10 +43,20 @@ public class MapDeviceContainer
 
       for (int y = 0; y < stackHandler.getHeight(); y++) {
         for (int x = 0; x < stackHandler.getWidth(); x++) {
-          this.containerSlotAdd(new SlotItemHandler(stackHandler, x + y * stackHandler.getWidth(), 71 + x * 18, 62 + y * 18));
+          this.containerSlotAdd(new SlotItemHandler(stackHandler, x + y * stackHandler.getWidth(), 71 + x * 18, 67 + y * 18));
         }
       }
       this.slotIndexMapMatrixEnd = (this.nextSlotIndex - 1);
+    }
+
+    {
+      this.slotIndexStoneStart = this.nextSlotIndex;
+      MapDeviceBlockEntity.StoneStackHandler stackHandler = this.blockEntity.getStoneStackHandler();
+
+      for (int i = 0; i < stackHandler.getSlots(); i++) {
+        this.containerSlotAdd(new SlotItemHandler(stackHandler, i, 30 + i * 20, 44));
+      }
+      this.slotIndexStoneEnd = (this.nextSlotIndex - 1);
     }
 
     this.containerPlayerInventoryAdd();
@@ -54,10 +67,22 @@ public class MapDeviceContainer
   @Override
   protected Slot containerItemStackSlotTargetGet(ItemStack itemStack) {
 
-    if (itemStack.getItem() instanceof AtlasMapItem) {
+    Item item = itemStack.getItem();
+
+    if (item instanceof AtlasMapItem) {
 
       for (int i = 0; i <= this.slotIndexMapMatrixEnd - this.slotIndexMapMatrixStart; i++) {
         Slot slot = this.slots.get(i + this.slotIndexMapMatrixStart);
+
+        if (!slot.hasItem()) {
+          return slot;
+        }
+      }
+
+    } else if (item instanceof AtlasMapStone) {
+
+      for (int i = 0; i <= this.slotIndexStoneEnd - this.slotIndexStoneStart; i++) {
+        Slot slot = this.slots.get(i + this.slotIndexStoneStart);
 
         if (!slot.hasItem()) {
           return slot;

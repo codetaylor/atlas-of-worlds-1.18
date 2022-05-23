@@ -15,7 +15,7 @@ public class MapDevicePortalBlockEntity
       IBlockEntityDataService blockEntityDataService
   ) {
 
-    super(AtlasModule.BlockEntityTypes.MAP_DEVICE, blockPos, blockState, blockEntityDataService);
+    super(AtlasModule.BlockEntityTypes.MAP_DEVICE_PORTAL, blockPos, blockState, blockEntityDataService);
   }
 
 }
