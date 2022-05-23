@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
@@ -36,7 +35,7 @@ public abstract class BaseContainerScreen<T extends AbstractContainerMenu>
   protected final List<IScreenElementTooltipProvider> tooltipProviderList;
   protected final List<Component> tooltipTextList;
 
-  public BaseContainerScreen(T container, Inventory playerInventory, MutableComponent title, int width, int height) {
+  public BaseContainerScreen(T container, Inventory playerInventory, Component title, int width, int height) {
 
     super(container, playerInventory, title);
     this.imageWidth = width;
