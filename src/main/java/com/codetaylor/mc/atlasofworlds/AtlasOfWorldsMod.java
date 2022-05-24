@@ -5,6 +5,8 @@ import com.codetaylor.mc.atlasofworlds.lib.network.api.NetworkAPI;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.packet.IPacketService;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.IBlockEntityDataService;
 import com.mojang.logging.LogUtils;
+import com.codetaylor.mc.atlasofworlds.lib.dimension.api.DimensionAPI;
+import com.codetaylor.mc.atlasofworlds.lib.dimension.internal.DimensionManager;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -43,7 +45,10 @@ public class AtlasOfWorldsMod {
     IBlockEntityDataService tileDataService = NetworkAPI.createTileDataService(MOD_ID, MOD_ID, packetService);
     NetworkAPI.initialize(modEventBus, forgeEventBus, packetService, tileDataService);
 
-    this.atlasModule = new AtlasModule(modEventBus, forgeEventBus, packetService, tileDataService);
+    DimensionManager dimensionManager = DimensionAPI.createDimensionManager(packetService);
+    DimensionAPI.initialize(forgeEventBus, packetService, dimensionManager);
+
+    this.atlasModule = new AtlasModule(modEventBus, forgeEventBus, packetService, tileDataService, dimensionManager);
 
     // Register the setup method for modloading
     modEventBus.addListener(this::setup);

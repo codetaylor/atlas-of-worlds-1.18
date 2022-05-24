@@ -10,6 +10,7 @@ import com.codetaylor.mc.atlasofworlds.atlas.common.block.MapDevicePortalBlockEn
 import com.codetaylor.mc.atlasofworlds.atlas.common.container.MapDeviceContainer;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.packet.IPacketService;
 import com.codetaylor.mc.atlasofworlds.lib.network.spi.tile.data.service.IBlockEntityDataService;
+import com.codetaylor.mc.atlasofworlds.lib.dimension.api.IDimensionManager;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -18,7 +19,7 @@ import net.minecraftforge.registries.ObjectHolder;
 
 public class AtlasModule {
 
-  public AtlasModule(IEventBus modEventBus, IEventBus forgeEventBus, IPacketService packetService, IBlockEntityDataService blockEntityDataService) {
+  public AtlasModule(IEventBus modEventBus, IEventBus forgeEventBus, IPacketService packetService, IBlockEntityDataService blockEntityDataService, IDimensionManager dimensionManager) {
 
     IAtlasModuleSidedProxy proxy = DistExecutor.unsafeRunForDist(
         () -> () -> new ClientSidedProxy(packetService, blockEntityDataService),

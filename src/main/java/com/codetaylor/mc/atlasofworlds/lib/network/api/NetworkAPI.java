@@ -34,4 +34,8 @@ public final class NetworkAPI {
 
     return BlockEntityDataServiceContainer.INSTANCE.get().register(new ResourceLocation(modId, serviceName), packetService);
   }
+
+  private NetworkAPI() {
+    //
+  }
 }

@@ -3,7 +3,7 @@ ext {
     modid = 'atlasofworlds'
 
     forge = [
-            version: '1.18.2-40.1.19',
+            version      : '1.18.2-40.1.19',
             version_range: '[40,)'
     ]
 
@@ -14,11 +14,6 @@ ext {
     mappings = [
             channel: 'official',
             version: '1.18.2'
-    ]
-
-    infiniverse = [
-            branch: 'infiniverse-1.18.2',
-            version: '1.0.0.2'
     ]
 
     // Example replacements:
@@ -39,9 +34,6 @@ repositories {
 //        url 'http://dvs1.progwml6.com/files/maven' // JEI
 //    }
 
-    // Infiniverse
-    maven { url "https://cubicinterpolation.net/maven/" }
-
     flatDir {
         dirs 'libs'
     }
@@ -49,6 +41,5 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${project.ext.forge.version}"
-    implementation fg.deobf("commoble.infiniverse:${project.ext.infiniverse.branch}:${project.ext.infiniverse.version}")
     // runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.0.58")
 }
