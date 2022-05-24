@@ -21,6 +21,11 @@ public class ClientboundPacketUpdateDimensions
   private Set<ResourceKey<Level>> keys;
   private boolean add;
 
+  @SuppressWarnings("unused")
+  public ClientboundPacketUpdateDimensions() {
+    // serialization
+  }
+
   /**
    * @param keys keys to add or remove in the client's dimension list
    * @param add  if true, keys are to be added; if false, keys are to be removed
