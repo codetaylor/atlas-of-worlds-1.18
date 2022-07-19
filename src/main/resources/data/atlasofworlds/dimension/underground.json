@@ -1,0 +1,19 @@
+{
+  "type": "atlasofworlds:underground",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "atlasofworlds:underground",
+      "features": true,
+      "layers": [
+        {
+          "block": "minecraft:stone",
+          "height": 256
+        }
+      ],
+      "structures": {
+        "structures": {}
+      }
+    }
+  }
+}

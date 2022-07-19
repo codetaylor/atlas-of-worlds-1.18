@@ -39,8 +39,8 @@ public class ClientboundPacketUpdateDimensions
   @Override
   public void encode(ClientboundPacketUpdateDimensions message, FriendlyByteBuf packetBuffer) {
 
-    packetBuffer.writeCollection(this.keys, (buf, key) -> buf.writeResourceLocation(key.location()));
-    packetBuffer.writeBoolean(this.add);
+    packetBuffer.writeCollection(message.keys, (buf, key) -> buf.writeResourceLocation(key.location()));
+    packetBuffer.writeBoolean(message.add);
   }
 
   @Override
